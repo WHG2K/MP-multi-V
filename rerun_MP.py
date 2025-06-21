@@ -2,9 +2,30 @@ import json
 from tqdm import tqdm
 from src.models import MPMVSurrogate
 from src.utils import get_distribution_from_name
+import argparse
+from dotenv import load_dotenv
+import os
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Experiment with customizable parameters.")
+    
+    parser.add_argument('--node', type=str, default=None, help='which node to run on')
+
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
+
+    # Parse arguments
+    args = parse_arguments()
+
+    # choose environment
+    if not args.node:
+        load_dotenv(override=True)
+    else:
+        load_dotenv(override=True, dotenv_path=f'{args.node}.env')
+        
 
     filename = 'MP_data_test.jsonl'
 
@@ -29,12 +50,3 @@ if __name__ == "__main__":
 
             print("sp solution: ", x)
             print("bf solution: ", inst["bf_x"])
-
-            # tqdm.write("see if I can print")
-
-            # break
-
-
-
-            # tqdm.write(f"  get dict: {inst}")
-
