@@ -6,7 +6,7 @@ def get_distribution_from_name(distr_name):
         return NegExp()
     elif distr_name == "NorMal":
         return NorMal()
-    elif distr_name == "Gumbel":
+    elif distr_name == "GumBel":
         return GumBel()
     elif distr_name == "UniForm":
         return UniForm()
@@ -14,3 +14,11 @@ def get_distribution_from_name(distr_name):
         return BimodalNormal()
     else:
         raise ValueError(f"Invalid distribution name: {distr_name}")
+    
+
+def format_cardinality(C):
+    if not isinstance(C, (int, tuple)):
+        raise ValueError("C must be an integer or tuple")
+    if isinstance(C, int):
+        C = (C, C)
+    return C
