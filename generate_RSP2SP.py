@@ -6,10 +6,11 @@ if __name__ == "__main__":
 
     params_generator = InstanceGenerator()
     B_list = [2, 4]
-    N_list = [25, 50, 75, 100]
+    # N_list = [25, 50, 75, 100]
+    N_list = [25, 50]
     F_list = ['GumBel', 'NegExp', 'NorMal', 'UniForm', 'BiNormal']
     eta = 0.2
-    n_instances = 10  # Generate n_instances records for each method
+    n_instances = 5  # Generate n_instances records for each method
 
     folder = "./data/RSP2SP/"
     os.makedirs(folder, exist_ok=True)
@@ -44,6 +45,6 @@ if __name__ == "__main__":
         records,
         columns=['menu', 'N', 'B', 'C', 'N0', 'F', 'cor', 'u', 'r', 'v']
     )
-    file_path = os.path.join(folder, "RSP2SP_data_solved.jsonl")
+    file_path = os.path.join(folder, "RSP2SP_data.jsonl")
     df.to_json(file_path, orient='records', lines=True)
     print(f"Generated {len(df)} samples across all distributions, saved to {file_path}")

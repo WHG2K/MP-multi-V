@@ -1,6 +1,6 @@
 import json
 from tqdm import tqdm
-from src.models_new import MPMVSurrogate, MPMVOriginal
+from src.models import MPMVSurrogate, MPMVOriginal
 from src.utils import get_distribution_from_name
 import argparse
 from dotenv import load_dotenv

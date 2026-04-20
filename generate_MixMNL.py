@@ -5,11 +5,12 @@ import os
 
 if __name__ == "__main__":
     # Experiment settings
-    N_values = [20, 50, 100]
-    K_values = [3]              # List of latent-class counts (can be expanded later)
+    # N_values = [20, 50, 100]
+    N_values = [20, 50]
+    K_values = [3]
     C_values = [4, 6, 8]
     size_con_set_ratio = 1.0
-    instances_per_N = 10
+    instances_per_N = 5
 
     # Output folder for generated JSONL files
     output_dir = "./data/mixMNL"

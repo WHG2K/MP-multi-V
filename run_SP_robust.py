@@ -1,6 +1,6 @@
 import json
 from tqdm import tqdm
-from src.models_new import MPMVSurrogate, MPMVOriginal
+from src.models import MPMVSurrogate, MPMVOriginal
 from src.utils import get_distribution_from_name
 import argparse
 from dotenv import load_dotenv
@@ -86,17 +86,6 @@ if __name__ == "__main__":
 
             updated_instances.append(inst)
 
-    # with open(f"updated_{filename}", 'w', encoding='utf-8') as f:
-    #     for inst in updated_instances:
-    #         f.write(json.dumps(inst) + '\n')
-
-    # updated_df = pd.DataFrame(updated_instances)
-    # updated_df.to_json(
-    #     f"updated_{filename}",
-    #     orient='records',
-    #     lines=True,
-    #     force_ascii=False,
-    # )
 
     root, ext = os.path.splitext(filename)
     output_path = f"{root}_solved{ext}"

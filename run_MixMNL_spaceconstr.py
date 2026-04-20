@@ -1,6 +1,6 @@
 import json
 from tqdm import tqdm
-from src.models_new import MixtureMNL, MPMVSurrogate, MixtureSP, MixedSP_Space_Constr
+from src.models import MixtureMNL, MPMVSurrogate, MixtureSP, MixedSP_Space_Constr
 from src.distributions import GumBel
 from src.heuristics import ADXOPT, RO, Greedy
 import argparse

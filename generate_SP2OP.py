@@ -10,7 +10,8 @@ if __name__ == "__main__":
     F_list = ['GumBel', 'NegExp', 'UniForm', 'NorMal', 'BiNormal']
     # F_list = ['GumBel', 'NegExp']
     cor_list = ['ind', 'linear']
-    n_instances = 20 # menu ids 1..10
+    # cor_list = ['ind']
+    n_instances = 5 # menu ids 1..10
 
     # Max N and N0 — generate once at these sizes, then slice for smaller combos
     N_max = 25

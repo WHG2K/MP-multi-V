@@ -6,12 +6,11 @@ import seaborn as sns
 import matplotlib.ticker as mtick
 
 # === Configuration ===
-jsonl_path     = "./data/mixMNL/MIXMNL_data_cardinality_solved.jsonl"
-results_folder = "./data/mixMNL"
-C_list         = [4, 6, 8]
+jsonl_path = "./data/mixMNL/MIXMNL_data_cardinality_solved.jsonl"
+C_list     = [4, 6, 8]
 
-# === Ensure output directory exists ===
-os.makedirs(results_folder, exist_ok=True)
+# === Derive output folder from input file path ===
+results_folder = os.path.dirname(jsonl_path)
 
 # === Manually read and parse JSONL, skipping blank lines ===
 records = []
@@ -24,7 +23,6 @@ with open(jsonl_path, 'r', encoding='utf-8') as fin:
             obj = json.loads(s)
             records.append(obj)
         except json.JSONDecodeError:
-            # Skip malformed lines
             continue
 
 df = pd.DataFrame(records)
@@ -34,7 +32,6 @@ df['opt_gap'] = 1 - df['pi_baye'] / df['pi_milp']
 # === Prepare plot fields ===
 df['C_str'] = df['C1'].apply(lambda c: f"$C={c}$")
 hue_order   = [f"$C={e:g}$" for e in C_list]
-
 df['C_str'] = pd.Categorical(df['C_str'], categories=hue_order, ordered=True)
 
 # === Color palette ===
@@ -63,15 +60,13 @@ ax.set_ylabel("OptGap")
 ax.legend(title="")
 ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 
-# Set y-axis limits with a small padding
-low, high  = 0.0, 0.05
-pad        = (high - low) * 0.05
+low, high = 0.0, 0.05
+pad       = (high - low) * 0.05
 plt.ylim(low - pad, high + pad)
 
 # === Save figure ===
-C_str    = "-".join(str(e) for e in C_list)
-out_file = os.path.join(results_folder, f"boxplot_mixmnl_cardinality")
+out_file = os.path.join(results_folder, "boxplot_mixmnl_cardinality")
 plt.savefig(out_file + ".pdf", format="pdf", dpi=300)
 plt.close()
 
-print(f"Boxplot saved to {out_file}")
+print(f"Boxplot saved to {out_file}.pdf")

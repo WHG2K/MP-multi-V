@@ -14,7 +14,7 @@ if __name__ == "__main__":
     C_list = [6]
     # sigma_list = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5]
     sigma_list = [0, 0.1, 0.2, 0.3, 0.4]
-    n_instances = 100  # number of instances to generate per method
+    n_instances = 10  # number of instances to generate per method
 
     # Collect records across all distributions into a single file
     records = []

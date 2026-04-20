@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-from src.models_new import MPMVSurrogate
+from src.models import MPMVSurrogate
 from src.InstanceGenerator import InstanceGenerator
 from src.utils import get_distribution_from_name
 

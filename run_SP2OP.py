@@ -1,6 +1,6 @@
 import json
 from tqdm import tqdm
-from src.models_new import MPMVSurrogate, MPMVOriginal
+from src.models import MPMVSurrogate, MPMVOriginal
 from src.utils import get_distribution_from_name
 from src.brute_force import BruteForceOptimizer
 import argparse
