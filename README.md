@@ -38,7 +38,22 @@ GRB_LICENSE_FILE=/path/to/gurobi.lic
 Save and exit (in `nano`: `Ctrl+O`, `Enter`, `Ctrl+X`).
 
 
-## Reproducing the Figures
+
+## Reproducing Figures in the Paper
+
+First, download the solved data from the dropbox link: (TODO). Then create a folder called ```paper data``` to store all the data. Then run
+
+
+```bash
+pyhton plots_paper.py
+```
+
+
+
+
+
+
+## Reproducing by Rerun Your Preferred Parameters
 
 Each figure in the paper is produced by a three-step pipeline: (1) **generate** problem instances, (2) **solve** each instance, and (3) **plot** the results.
 
