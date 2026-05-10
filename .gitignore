@@ -1,126 +1,43 @@
-# ===== Environment & Secrets =====
+# Environment & secrets
 .env
 .env.*
 !.env.example
-*.pem
-*.key
-secrets/
 
-# ===== OS Files =====
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
-
-# ===== Editor / IDE =====
-.vscode/
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.idea/
-*.swp
-*.swo
-*~
-.project
-.classpath
-.settings/
-*.sublime-project
-*.sublime-workspace
-
-# ===== Logs =====
-*.log
-logs/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# ===== Python =====
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
 *.egg
+dist/
+build/
 .pytest_cache/
 .coverage
-.coverage.*
-htmlcov/
-.tox/
-.nox/
-.hypothesis/
 .mypy_cache/
 .ruff_cache/
-.ipynb_checkpoints/
 
 # Virtual environments
 venv/
-env/
-ENV/
 .venv/
-.env/
+env/
 
-# ===== Node.js / JavaScript =====
-node_modules/
-jspm_packages/
-.npm
-.yarn/
-.pnp.*
-.next/
-.nuxt/
-.cache/
-.parcel-cache/
-out/
-build/
-dist/
-coverage/
-.nyc_output/
+# Jupyter
+.ipynb_checkpoints/
 
-# ===== Java =====
-*.class
-*.jar
-*.war
-*.ear
-target/
-.gradle/
+# OS files
+.DS_Store
+Thumbs.db
 
-# ===== C/C++ =====
-*.o
-*.obj
-*.exe
-*.out
-*.a
-*.lib
-*.dll
-*.dylib
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# ===== Databases =====
-*.sqlite
-*.sqlite3
-*.db
+# Data (uncomment to exclude generated data from version control)
+# data/
 
-# ===== Misc =====
-tmp/
-temp/
-*.bak
-*.tmp
-.history/
+# Logs
+*.log

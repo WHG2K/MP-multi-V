@@ -1,3 +1,10 @@
+"""Optimization models for multi-purchase assortment problems.
+
+This module implements surrogate-based and exact formulations for assortment
+optimization under various choice models (MNL, mixed MNL) and constraint
+types (cardinality, space).
+"""
+
 import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
@@ -6,11 +13,32 @@ from src.distributions import UniForm, NegExp
 import pandas as pd
 from src.utils import format_cardinality
 
+# Default Gurobi solver parameters
+DEFAULT_SOLVER_PARAMS = {
+    'Threads': 4,
+    'MIPGapAbs': 0,
+    'Heuristics': 0,
+}
 
 
-class MPMVSurrogate():
+class MPMVSurrogate:
+    """Surrogate optimization model for the multi-purchase multi-variety problem.
+
+    Solves the surrogate problem SP(w) or relaxed surrogate RSP(w) over a
+    grid of threshold values w, returning the best binary assortment vector.
+
+    Args:
+        u: Utility values for each product (length N).
+        r: Revenue for each product (length N).
+        v: Utility values for outside options (length N0).
+        n_pick: Number of items a customer picks (B).
+        distr: Random utility distribution (e.g., GumBel, NegExp).
+        C: Cardinality constraint, either an int or (min, max) tuple.
+        solver_params: Optional dict of Gurobi solver parameters.
+    """
+
     def __init__(self, u, r, v, n_pick, distr, C, solver_params=None):
-        assert len(u)==len(r)
+        assert len(u) == len(r)
         self.u = u
         self.r = r
         self.v = v
@@ -22,15 +50,7 @@ class MPMVSurrogate():
         self.N = len(self.u)
         self.N_outside = len(self.v)
         self.n_pick = n_pick
-        self.solver_params = solver_params or {
-            'Threads': 24,
-            # 'MIPGap': 1e-6,
-            'MIPGapAbs': 0,
-            # 'IntFeasTol': 1e-6,
-            # 'OptimalityTol': 1e-6,
-            # 'FeasibilityTol': 1e-6,
-            'Heuristics': 0,
-        }
+        self.solver_params = solver_params or DEFAULT_SOLVER_PARAMS.copy()
 
 
     def _configure_model(self, m):
@@ -41,6 +61,11 @@ class MPMVSurrogate():
     
     
     def SP(self, w, verbose=0):
+        """Solve the surrogate problem SP(w) for a given threshold w.
+
+        Returns:
+            Tuple of (solution vector x, objective value).
+        """
         N = self.N
         N_outside = self.N_outside
         u = np.array(self.u)
@@ -58,9 +83,6 @@ class MPMVSurrogate():
 
         # setup model
         m = gp.Model("SP(w)")
-        # m.Params.OutputFlag = 0
-        # m.Params.LogToConsole = 0
-        # m.Params.Threads = 24
         self._configure_model(m)
 
         x = m.addMVar(N, vtype=GRB.BINARY)
@@ -74,7 +96,6 @@ class MPMVSurrogate():
         # optimize
         m.optimize()
 
-        # print("number of solutions:", m.SolCount)
 
         if m.SolCount >= 1:
             return x.X, m.ObjVal/N
@@ -83,6 +104,11 @@ class MPMVSurrogate():
         
     
     def RSP(self, w):
+        """Solve the relaxed surrogate problem RSP(w) for a given threshold w.
+
+        Returns:
+            Tuple of (continuous solution vector x, objective value).
+        """
         N = self.N
         N_outside = self.N_outside
         u = np.array(self.u)
@@ -100,9 +126,6 @@ class MPMVSurrogate():
 
         # setup model
         m = gp.Model("P(H)")
-        # m.Params.OutputFlag = 0
-        # m.Params.LogToConsole = 0
-        # m.Params.Threads = 24
         self._configure_model(m)
 
         x = m.addMVar(N, lb=0, ub=1, vtype=GRB.CONTINUOUS)
@@ -119,14 +142,10 @@ class MPMVSurrogate():
         # get the gradient by envelope theorem
         if m.SolCount >= 1:
             primal = x.X
-            # dual = m.getConstrByName("Constr1").Pi
-            # gradient = sum([self.distr.pdf(H-u[i])*primal[i]*(dual-r[i]) for i in range(N)]) + dual*sum([self.distr.pdf(H-v[j]) for j in range(N_outside)])
 
-            # return m.ObjVal/N, gradient/N
             return x.X, m.ObjVal/N
         
         else:
-            # return -1, 10
             return [0.0 for _ in range(N)], 0.0
 
 
@@ -151,7 +170,6 @@ class MPMVSurrogate():
                 low2 = low
         low = low2
 
-        # print("error expected to be negative:", sum([1-self.distr.cdf(low-v[j]) for j in range(N_outside)])-n_pick)
 
         high1 = -100
         high2 = 100
@@ -168,6 +186,15 @@ class MPMVSurrogate():
 
 
     def solve(self, method='SP', n_steps=1001):
+        """Solve the assortment problem by grid search over threshold values.
+
+        Args:
+            method: 'SP' for surrogate problem, 'RSP' for relaxed surrogate.
+            n_steps: Number of grid points for the threshold search.
+
+        Returns:
+            Binary assortment vector (list of 0/1 ints).
+        """
         # find upper bound and lower bound
         low, high = self._get_box_range()
 
@@ -188,7 +215,6 @@ class MPMVSurrogate():
                 return self._solve_SP_UniForm_MILP()
             elif isinstance(self.distr, NegExp):
                 return self._solve_SP_NegExp_MILP()
-            # n_steps = 101
             h_arr = np.linspace(low, high, n_steps)
             best_x = np.zeros(self.N)
             best_rev = -1.0
@@ -198,7 +224,6 @@ class MPMVSurrogate():
                 if (curr_rev > best_rev):
                     best_rev = curr_rev
                     best_x = curr_x
-                    # best_h = h # comment out
             x = best_x
 
         else:
@@ -221,9 +246,6 @@ class MPMVSurrogate():
 
         # setup model
         m = gp.Model("IP formulation for UniForm")
-        # m.Params.OutputFlag = 0
-        # m.Params.LogToConsole = 0
-        # m.Params.Threads = 24
         self._configure_model(m)
 
         # range of w and p:=exp(lmd*w)
@@ -248,8 +270,6 @@ class MPMVSurrogate():
         t = m.addMVar(N_outside, lb=min(0,wL), ub=max(0,wH), vtype=GRB.CONTINUOUS)
 
         # set objective
-        # penalty = 1e-7
-        # m.setObjective((gp.quicksum( r[i]*(d+u[i])/(2*d)*q[i] - r[i]/(2*d)*s[i] + r[i]*_q[i]  for i in range(N))) + gp.quicksum(penalty*x[i] for i in range(N)), GRB.MAXIMIZE)
         m.setObjective((gp.quicksum( r[i]*(d+u[i])/(2*d)*q[i] - r[i]/(2*d)*s[i] + r[i]*_q[i]  for i in range(N))), GRB.MAXIMIZE)
 
         # basic constraint
@@ -314,9 +334,6 @@ class MPMVSurrogate():
 
         # setup model
         m = gp.Model("IP formulation for NegExp")
-        # m.Params.OutputFlag = 0
-        # m.Params.LogToConsole = 0
-        # m.Params.Threads = 24
         self._configure_model(m)
 
         # range of w and p:=exp(lmd*w)
@@ -342,8 +359,6 @@ class MPMVSurrogate():
         t = m.addMVar(N_outside, lb=min(0,pL), ub=max(0,pH), vtype=GRB.CONTINUOUS)
 
         # set objective
-        # penalty = 1e-5
-        # m.setObjective((gp.quicksum(r[i]*(q[i]-1/bu[i]*s[i]) for i in range(N)) + gp.quicksum(penalty*x[i] for i in range(N))), GRB.MAXIMIZE)
         m.setObjective(gp.quicksum(r[i]*(q[i]-1/bu[i]*s[i]) for i in range(N)), GRB.MAXIMIZE)
 
         # basic constraint
@@ -418,6 +433,11 @@ class MPMVSurrogate():
 
 
 class MPMVOriginal:
+    """Original (simulation-based) multi-purchase multi-variety model.
+
+    Evaluates assortment revenue by Monte Carlo simulation of customer
+    choice behavior under the given utility distribution.
+    """
     def __init__(self, u, r, v, n_pick, distr):
         assert len(u)==len(r)
         self.u = u
@@ -488,7 +508,8 @@ class MPMVOriginal:
 
 
 
-class MixedSP:    # mixed u and v, but deterministic B (n_pick)
+class MixedSP:
+    """Surrogate problem with mixed utilities u, v and deterministic bundle size B."""
 
     def __init__(self, u, r, v, n_pick, distr, C, weights):
         assert len(u[0])==len(r)
@@ -534,7 +555,6 @@ class MixedSP:    # mixed u and v, but deterministic B (n_pick)
             low = low2
             low_list.append(low)
 
-            # print("error expected to be negative:", sum([1-self.distr.cdf(low-v[j]) for j in range(N_outside)])-n_pick)
 
             high1 = -10
             high2 = 10
@@ -602,7 +622,6 @@ class MixedSP:    # mixed u and v, but deterministic B (n_pick)
         # optimize
         m.optimize()
 
-        # print("number of solutions:", m.SolCount)
 
         if m.SolCount >= 1:
             return [int(round(xi)) for xi in x.X], m.ObjVal
@@ -617,7 +636,8 @@ class MixedSP:    # mixed u and v, but deterministic B (n_pick)
 
 
 
-class MixtureSP:  # we might solve it using herustics.
+class MixtureSP:
+    """Surrogate problem for mixture models with heuristic solvers."""
     def __init__(self, models, weights):
         assert len(models) == len(weights)
         assert abs(sum(weights) - 1.0) <= 1e-6
@@ -645,72 +665,8 @@ class MixtureSP:  # we might solve it using herustics.
 
 
 
-# class MNL():  # MNL for standard Gumbel with cardinality constraints
-#     def __init__(self, u, r, v, C):
-#         '''
-#         All numpy arrays
-#         '''
-#         assert len(u)==len(r)
-#         self.u = np.array(u).reshape(-1)
-#         self.r = np.array(r).reshape(-1)
-#         self.v = v
-#         self.N = len(u)
-#         self.C = C
-#         # normalize the utility of the no-purchase option to 0
-#         self.w = np.exp(u-v).reshape(-1)
-#         self.X = None
-    
-#     def solve(self, verbose=0):
-#         N = self.N
-#         w = self.w
-#         r = self.r
-#         C = self.C
-
-#         # setup model
-#         m = gp.Model("mnl")
-#         m.Params.OutputFlag = 0
-#         m.Params.LogToConsole = 0
-
-#         # variables
-#         y = m.addMVar(N, lb=0, vtype=GRB.CONTINUOUS)
-#         y0 = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
-#         # objective
-#         m.setObjective((gp.quicksum(r[i]*y[i] for i in range(N))), GRB.MAXIMIZE)
-#         # basic constraint 1
-#         m.addConstr(y0 + gp.quicksum(y[i] for i in range(N)) <= 1)
-#         # cardinality constraint
-#         m.addConstr(gp.quicksum(y[i]/w[i] for i in range(N)) <= C*y0)
-#         # another set of constraints
-#         for j in range(N):
-#              m.addConstr(y[j] <= y0*w[j])
-#         # optimize
-#         m.optimize()
-
-#         if verbose==1:
-#             print("optimal objective value: ", m.objVal)
-
-#         self.X = np.where(y.X > 1e-8, 1, 0)
-#         return self.X
-
-#     def get_revenue(self, x):
-#         x = np.array(x).reshape(-1)
-#         w = self.w
-#         r = self.r
-#         N = self.N
-#         denominator = 1.0 + np.dot(w, x)
-#         purchase_prob = w*x/denominator
-#         return np.dot(r, purchase_prob)
-    
-#     def __call__(self, x):
-#         return self.get_revenue(x)
-
-
-
-
-
-
-
-class MixtureMNL: # not sure if K=1 could cause problem.
+class MixtureMNL:
+    """Mixture multinomial logit model for assortment optimization."""
 
     def __init__(self, pf, r, weights):
         # self.u = np.array(u).tolist()
@@ -841,7 +797,8 @@ class MixtureMNL: # not sure if K=1 could cause problem.
 
 
 
-class MNL_Space_Constr():  # MNL for standard Gumbel with cardinality constraints
+class MNL_Space_Constr:
+    """MNL model with space (knapsack) constraints under standard Gumbel noise."""
     # def __init__(self, u, r, v, weights, W):
     def __init__(self, pf, r):
         # assert len(u)==len(r)
@@ -903,7 +860,8 @@ class MNL_Space_Constr():  # MNL for standard Gumbel with cardinality constraint
 
 
 
-class MPMVSurrogate_Space_Constr():  # general multi-choice fluid model
+class MPMVSurrogate_Space_Constr:
+    """Surrogate model for the multi-purchase problem with space (knapsack) constraints."""
     def __init__(self, u, r, v, n_pick, distr, s, W, solver_params=None):
         self.u = u
         self.r = r
@@ -945,9 +903,6 @@ class MPMVSurrogate_Space_Constr():  # general multi-choice fluid model
 
         # setup model
         m = gp.Model("SP(w)")
-        # m.Params.OutputFlag = 0
-        # m.Params.LogToConsole = 0
-        # m.Params.Threads = 24
         self._configure_model(m)
 
         x = m.addMVar(N, vtype=GRB.BINARY)
@@ -960,7 +915,6 @@ class MPMVSurrogate_Space_Constr():  # general multi-choice fluid model
         # optimize
         m.optimize()
 
-        # print("number of solutions:", m.SolCount)
 
         if m.SolCount >= 1:
             return x.X, m.ObjVal/N
@@ -988,7 +942,6 @@ class MPMVSurrogate_Space_Constr():  # general multi-choice fluid model
                 low2 = low
         low = low2
 
-        # print("error expected to be negative:", sum([1-self.distr.cdf(low-v[j]) for j in range(N_outside)])-n_pick)
 
         high1 = -10
         high2 = 10
@@ -1020,7 +973,6 @@ class MPMVSurrogate_Space_Constr():  # general multi-choice fluid model
             if (curr_rev > best_rev):
                 best_rev = curr_rev
                 best_x = curr_x
-                # best_h = h # comment out
         x = best_x
 
         x = np.array(x).reshape(-1)
@@ -1062,7 +1014,8 @@ class MPMVSurrogate_Space_Constr():  # general multi-choice fluid model
 
 
 
-class MixedSP_Space_Constr:    # mixed u and v, but deterministic B (n_pick)
+class MixedSP_Space_Constr:
+    """Mixed surrogate problem with space (knapsack) constraints."""
 
     def __init__(self, u, r, v, n_pick, distr, weights, s, W, solver_params=None):
         assert len(u[0])==len(r)
@@ -1122,7 +1075,6 @@ class MixedSP_Space_Constr:    # mixed u and v, but deterministic B (n_pick)
             low = low2
             low_list.append(low)
 
-            # print("error expected to be negative:", sum([1-self.distr.cdf(low-v[j]) for j in range(N_outside)])-n_pick)
 
             high1 = -10
             high2 = 10
@@ -1155,9 +1107,6 @@ class MixedSP_Space_Constr:    # mixed u and v, but deterministic B (n_pick)
 
         # setup model
         m = gp.Model("SP(w)")
-        # m.Params.OutputFlag = 0
-        # m.Params.LogToConsole = 0
-        # m.Params.Threads = 24
         self._configure_model(m)
 
         b_list = []
@@ -1191,7 +1140,6 @@ class MixedSP_Space_Constr:    # mixed u and v, but deterministic B (n_pick)
         # optimize
         m.optimize()
 
-        # print("number of solutions:", m.SolCount)
 
         if m.SolCount >= 1:
             return [int(round(xi)) for xi in x.X], m.ObjVal
@@ -1205,7 +1153,9 @@ class MixedSP_Space_Constr:    # mixed u and v, but deterministic B (n_pick)
 
 
 
-class MNL():  # MNL for standard Gumbel with cardinality constraints
+class MNL:
+    """Standard MNL model with Gumbel noise and cardinality constraints."""
+
     def __init__(self, pf, r):
         assert len(pf)==len(r)
         self.pf = np.array(pf).reshape(-1)
