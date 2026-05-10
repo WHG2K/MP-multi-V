@@ -6,3 +6,4 @@ python-dotenv>=0.19
 tqdm>=4.62
 matplotlib>=3.5
 seaborn>=0.12
+scikit-optimize>=0.9
