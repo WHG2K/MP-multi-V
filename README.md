@@ -67,9 +67,8 @@ GRB_LICENSE_FILE=/path/to/gurobi.lic
 
 Each figure in the paper is produced by a three-step pipeline: **(1) generate** problem instances, **(2) solve** each instance, and **(3) plot** the results. All scripts should be run from the project root directory.
 
-<<<<<<< HEAD
+
 > **Note on sample sizes.** The scripts are configured to generate **small test samples** for quick verification. The full datasets used in the paper are hosted on Dropbox (link below) — you can skip directly to the plotting step to regenerate the paper's figures without rerunning the experiments.
-=======
 
 ## Reproducing figures in the paper
 
