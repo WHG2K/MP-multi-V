@@ -89,13 +89,6 @@ pyhton plots_paper.py
 
 Each figure in the paper is produced by a three-step pipeline: (1) **generate** problem instances, (2) **solve** each instance, and (3) **plot** the results.
 
-> **Note on sample sizes.** The scripts in this repository are configured to generate **small test samples** for quick reproduction. The full datasets used in the paper are hosted on Dropbox (link below) — you can skip directly to the plotting step if you'd like to regenerate the paper's figures without rerunning the experiments.
->>>>>>> ac30902a809f9643fdb77c29914de69267f3fff3
->
-> *Dropbox link: [to be added]*
-
----
-
 ### Figures 2 and L2: SP vs. optimal assortment (multi-purchase setting)
 
 ```bash
