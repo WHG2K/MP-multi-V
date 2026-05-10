@@ -71,17 +71,15 @@ Each figure in the paper is produced by a three-step pipeline: **(1) generate** 
 > **Note on sample sizes.** The scripts are configured to generate **small test samples** for quick verification. The full datasets used in the paper are hosted on Dropbox (link below) — you can skip directly to the plotting step to regenerate the paper's figures without rerunning the experiments.
 =======
 
-## Reproducing Figures in the Paper
+## Reproducing figures in the paper
 
-First, download the solved data from the dropbox link: (TODO). Then create a folder called ```paper data``` to store all the data. Then run
-
+First, download the solved data from the Dropbox link: *(TODO)*. Then create a folder called `paper data` in the project root to store all the data. Then run:
 
 ```bash
-pyhton plots_paper.py
+python scripts/plot/plots_paper.py
 ```
 
-
-
+This will read the solved datasets from `./paper data/` and save all figures to `./paper data/outputs/`.
 
 
 
