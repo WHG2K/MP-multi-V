@@ -67,34 +67,24 @@ GRB_LICENSE_FILE=/path/to/gurobi.lic
 
 Each figure in the paper is produced by a three-step pipeline: **(1) generate** problem instances, **(2) solve** each instance, and **(3) plot** the results. All scripts should be run from the project root directory.
 
-<<<<<<< HEAD
+
 > **Note on sample sizes.** The scripts are configured to generate **small test samples** for quick verification. The full datasets used in the paper are hosted on Dropbox (link below) — you can skip directly to the plotting step to regenerate the paper's figures without rerunning the experiments.
-=======
 
-## Reproducing Figures in the Paper
+## Reproducing figures in the paper
 
-First, download the solved data from the dropbox link: (TODO). Then create a folder called ```paper data``` to store all the data. Then run
-
+First, download the solved data from the Dropbox link: *(TODO)*. Then create a folder called `paper data` in the project root to store all the data. Then run:
 
 ```bash
-pyhton plots_paper.py
+python scripts/plot/plots_paper.py
 ```
 
-
-
+This will read the solved datasets from `./paper data/` and save all figures to `./paper data/outputs/`.
 
 
 
 ## Reproducing by Rerun Your Preferred Parameters
 
 Each figure in the paper is produced by a three-step pipeline: (1) **generate** problem instances, (2) **solve** each instance, and (3) **plot** the results.
-
-> **Note on sample sizes.** The scripts in this repository are configured to generate **small test samples** for quick reproduction. The full datasets used in the paper are hosted on Dropbox (link below) — you can skip directly to the plotting step if you'd like to regenerate the paper's figures without rerunning the experiments.
->>>>>>> ac30902a809f9643fdb77c29914de69267f3fff3
->
-> *Dropbox link: [to be added]*
-
----
 
 ### Figures 2 and L2: SP vs. optimal assortment (multi-purchase setting)
 
