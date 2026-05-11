@@ -210,7 +210,7 @@ class Greedy(Heuristic):
             x = np.round(x).astype(int)
             next_searches = []
             for i in range(len(x)):
-                if x[i] == 0:  # 仅考虑当前为 0 的位置
+                if x[i] == 0:
                     y = x.copy()
                     y[i] = 1
                     next_searches.append(y)
