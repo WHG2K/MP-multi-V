@@ -1,3 +1,4 @@
+# Line plot: RSP vs SP runtime scaling (Figure 4).
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

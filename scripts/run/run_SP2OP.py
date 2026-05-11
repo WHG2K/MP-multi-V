@@ -1,3 +1,4 @@
+# Solve SP and brute-force optimal for each instance. Produces Figures 2, L2.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

@@ -1,3 +1,5 @@
+"""Brute-force optimizer that enumerates all feasible assortments to find the global optimum."""
+
 import numpy as np
 import itertools
 import multiprocessing

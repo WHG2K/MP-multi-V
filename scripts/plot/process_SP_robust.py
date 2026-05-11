@@ -1,3 +1,4 @@
+# Post-process robustness experiment results for table generation.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

@@ -1,3 +1,4 @@
+# Combine solved heatmap data from multiple runs into a single JSONL.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

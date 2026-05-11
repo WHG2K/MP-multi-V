@@ -1,3 +1,4 @@
+# Boxplot: SP vs optimal under MNL with cardinality constraints (Figures 5a, L4a).
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

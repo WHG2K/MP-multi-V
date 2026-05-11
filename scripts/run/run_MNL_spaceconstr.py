@@ -1,3 +1,4 @@
+# Solve MNL instances with space (knapsack) constraints. Produces Figures 5b, L4b.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

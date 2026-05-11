@@ -1,3 +1,4 @@
+# Solve RSP and SP for each instance and compare solution quality. Produces Figures 3, L3.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

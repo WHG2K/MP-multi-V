@@ -1,3 +1,4 @@
+# Master plotting script: reads solved data from "paper data/" and generates all paper figures.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

@@ -1,3 +1,5 @@
+"""Heuristic solvers (ADXOPT, greedy, revenue-ordered) for assortment optimization."""
+
 import numpy as np
 from typing import Tuple, Union, Callable, List
 from abc import ABC, abstractmethod

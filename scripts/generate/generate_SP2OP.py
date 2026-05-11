@@ -1,3 +1,4 @@
+# Generate instances for comparing SP vs optimal (brute-force) assortments.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

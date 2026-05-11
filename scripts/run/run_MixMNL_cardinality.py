@@ -1,3 +1,4 @@
+# Solve mixture MNL instances with cardinality constraints. Produces Figure 6a.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

@@ -1,3 +1,4 @@
+# Line plot: RSP(w) vs SP(w) value curves across N (Figure 7).
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 

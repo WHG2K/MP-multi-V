@@ -1,3 +1,4 @@
+# Boxplot: SP vs optimal assortment in multi-purchase setting (Figures 2, L2).
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
