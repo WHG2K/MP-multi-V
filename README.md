@@ -1,6 +1,6 @@
-# MP-multi-V
+# Code package
 
-Code for reproducing the numerical experiments in the paper on **multi-purchase assortment optimization with surrogate formulations**.
+Code for reproducing the numerical experiments in the paper **Multi-purchase Assortment Optimization under a General Random Utility Model** by Wenhao Gu, Anton Braverman and Tarek Abdallah.
 
 This repository implements surrogate-based optimization methods (SP, RSP) for assortment problems under various choice models (MNL, mixed MNL) and constraint types (cardinality, space), and compares them against brute-force optimal solutions.
 
