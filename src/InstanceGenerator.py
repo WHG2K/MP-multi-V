@@ -1,7 +1,4 @@
 """Random instance generators for assortment optimization experiments.
-
-Provides generators for single-class (IND, LINEAR) and mixture MNL instances
-with configurable correlation structures and parameter ranges.
 """
 
 import numpy as np
