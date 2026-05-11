@@ -76,6 +76,8 @@ This will read the solved datasets from `./paper data/` and save all figures to 
 
 ## Reproducing by Rerun Your Preferred Parameters
 
+Since the experiments in the paper takes very long time to run (days), we suggest running them with smaller example sizes.
+
 Each figure in the paper is produced by a three-step pipeline: (1) **generate** problem instances, (2) **solve** each instance, and (3) **plot** the results.
 
 ### Figures 2 and L2: SP vs. optimal assortment (multi-purchase setting)
@@ -88,7 +90,7 @@ python scripts/plot/boxplot_SP2OP.py
 
 Outputs: `boxplot_SP2OP_ind.pdf` (Figure 2), `boxplot_SP2OP_linear.pdf` (Figure L2) in `./data/SP2OP/`.
 
-### Figures 3 and L3: RSP vs. SP solution quality
+### Figures 3 and L3: RSP vs. SP solution quality (multi-purchase setting)
 
 ```bash
 python scripts/generate/generate_RSP2SP.py
@@ -98,7 +100,7 @@ python scripts/plot/boxplot_RSP2SP.py
 
 Outputs in `./data/RSP2SP/`: `boxplot_RSP2SP_B_2_ind.pdf` (Figure 3a), `boxplot_RSP2SP_B_4_ind.pdf` (Figure 3b), `boxplot_RSP2SP_B_2_linear.pdf` (Figure L3a), `boxplot_RSP2SP_B_4_linear.pdf` (Figure L3b).
 
-### Figure 4: SP vs. RSP runtime comparison
+### Figure 4: SP vs. RSP runtime comparison (multi-purchase setting)
 
 ```bash
 python scripts/generate/generate_RSP2SP_runtime.py
@@ -120,7 +122,7 @@ python scripts/plot/boxplot_MNL_spaceconstr.py
 
 Outputs in `./data/MNL/`: `boxplot_MNL_cardinality_ind.pdf` (Figure 5a), `boxplot_MNL_spaceconstr_ind.pdf` (Figure 5b), `boxplot_MNL_cardinality_linear.pdf` (Figure L4a), `boxplot_MNL_spaceconstr_linear.pdf` (Figure L4b).
 
-### Figure 6: SP vs. optimal under mixture MNL
+### Figure 6: SP vs. optimal under single-purchase mixture MNL
 
 ```bash
 python scripts/generate/generate_MixMNL.py
