@@ -44,7 +44,7 @@ This project uses [Gurobi](https://www.gurobi.com/) as the optimization solver.
    ```bash
    pip install gurobipy
    ```
-3. Obtain a license file (`gurobi.lic`). Academic users can request a free license [here](https://www.gurobi.com/academia/academic-program-and-licenses/); commercial users can find licensing options [here](https://www.gurobi.com/solutions/licensing/).
+3. Obtain a license file (`gurobi.lic`). Academic users can request a free license.
 
 ### 3. Configure environment variables
 
@@ -72,7 +72,7 @@ Each figure in the paper is produced by a three-step pipeline: **(1) generate** 
 
 ## Reproducing figures in the paper
 
-First, download the solved data from the Dropbox link: https://www.dropbox.com/scl/fo/1p44rtnn4tpf4gs3tgf6i/AGPGmyY-YiCOvXuk3kXwHAY?rlkey=vol1m7sugodkha1wyf23df1jx&st=hcdbj7lf&dl=0. Then create a folder called `paper data` in the project root to store all the data. Then run:
+First, download the solved data from the Dropbox link: https://www.dropbox.com/scl/fo/43ajhbekto3kq8z2ieznk/AGJhqDH3OT-KSXE6bHtMCQM?rlkey=lyppljcosnol9qnixqfax6oz6&st=9vcgg290&dl=0. Then create a folder called `paper data` in the project root to store all the data. Then run:
 
 ```bash
 python scripts/plot/plots_paper.py
