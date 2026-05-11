@@ -27,11 +27,9 @@ MP-multi-V/
 
 ## Installation
 
-### 1. Clone and install Python dependencies
+### 1. Install Python dependencies
 
 ```bash
-git clone <repository-url>
-cd MP-multi-V
 pip install -r requirements.txt
 ```
 
