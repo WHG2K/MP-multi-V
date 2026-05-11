@@ -1,9 +1,4 @@
-"""Optimization models for multi-purchase assortment problems.
-
-This module implements surrogate-based and exact formulations for assortment
-optimization under various choice models (MNL, mixed MNL) and constraint
-types (cardinality, space).
-"""
+"""Optimization models for assortment optimization problems"""
 
 import numpy as np
 import gurobipy as gp
