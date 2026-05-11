@@ -127,18 +127,6 @@ if __name__ == "__main__":
             w_baye = res.x
             x_sp_baye = mixedSP.SP(w_baye)[0]
             x_sp_baye = [int(round(x)) for x in x_sp_baye]
-            # print("===========================================================================")
-            # print("最佳目标值：", res.fun)
-            # print("最佳参数：")
-            # for name, val in zip([d.name for d in space], res.x):
-            #     print(f"  {name} = {val:.6f}")
-            # # ─── 7. 可视化（可选）───────────────────
-            # # 7.1 采集函数曲线
-            # plots.plot_gaussian_process(res)
-            # plt.title("GP surrogate & acquisition (EI)")
-            # # 7.2 参数—目标平面（pairwise）
-            # plots.plot_objective(res)
-            # print("===========================================================================")
             time_7 = time.time()
             # print("time bayesian:", time_7 - time_6)
 
