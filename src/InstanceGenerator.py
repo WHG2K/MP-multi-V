@@ -1,5 +1,4 @@
-"""Random instance generators for assortment optimization experiments.
-"""
+"""Random instance generators for assortment optimization experiments."""
 
 import numpy as np
 
