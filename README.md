@@ -72,7 +72,7 @@ Each figure in the paper is produced by a three-step pipeline: **(1) generate** 
 
 ## Reproducing figures in the paper
 
-First, download the solved data from the Dropbox link: https://www.dropbox.com/scl/fo/1p44rtnn4tpf4gs3tgf6i/AGPGmyY-YiCOvXuk3kXwHAY?rlkey=kpwbcymjy9xr0spaw381vc0e9&st=5q054kal&dl=0. Then create a folder called `paper data` in the project root to store all the data. Then run:
+First, download the solved data from the Dropbox link: https://www.dropbox.com/scl/fo/1p44rtnn4tpf4gs3tgf6i/AGPGmyY-YiCOvXuk3kXwHAY?rlkey=vol1m7sugodkha1wyf23df1jx&st=hcdbj7lf&dl=0. Then create a folder called `paper data` in the project root to store all the data. Then run:
 
 ```bash
 python scripts/plot/plots_paper.py
