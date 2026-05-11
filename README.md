@@ -36,11 +36,7 @@ pip install -r requirements.txt
 This project uses [Gurobi](https://www.gurobi.com/) as the optimization solver.
 
 1. Download the latest Gurobi Optimizer from the [official downloads page](https://www.gurobi.com/downloads/gurobi-software/) and install it on your machine.
-2. Install the Gurobi Python interface:
-   ```bash
-   pip install gurobipy
-   ```
-3. Obtain a license file (`gurobi.lic`). Academic users can request a free license.
+2. Obtain a license file (`gurobi.lic`). Academic users can request a free license.
 
 ### 3. Configure environment variables
 
