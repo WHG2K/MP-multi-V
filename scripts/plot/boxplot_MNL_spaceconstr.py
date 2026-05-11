@@ -9,8 +9,6 @@ import seaborn as sns
 import matplotlib.ticker as mtick
 
 
-###### SPLIT IND AND LINEAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 # === User configuration ===
 jsonl_path = "./data/MNL/MNL_data_spaceconstr_solved.jsonl"  # Input JSONL file path
 C_list     = [4, 6, 8]                                       # List of C values to plot
